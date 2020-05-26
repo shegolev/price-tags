@@ -1,0 +1,87 @@
+
+<div class="header">
+    <div class="logo">
+        Price <span>tag</span>
+    </div>
+    <div class="button_container">
+        <button class="btn btn-primary" [ngClass]="prodType == 'smartphone' ? 'active': ''" type="button" (click)="changeProductType('smartphone')">Смартфоны</button>
+        <button class="btn btn-primary" [ngClass]="prodType == 'pads' ? 'active': ''" type="button"  (click)="changeProductType('pads')">Планшеты</button>
+        <button class="btn btn-primary" [ngClass]="prodType == 'notebook' ? 'active': ''" type="button" type="button" (click)="changeProductType('notebook')">Ноутбуки</button>
+        <button class="btn btn-primary" [ngClass]="prodType == 'portative' ? 'active': ''" type="button" type="button" (click)="changeProductType('portative')">Портативка</button>
+    </div>
+</div>
+
+<div class="paper_container">
+    <ng-container *ngFor="let item of filtered">
+        <div class="list_wrapper" *ngIf="item.active">
+
+                <div class="edit">
+                    <button class="btn btn-primary" type="button" (click)="edit(item)">Редачить</button>
+                    <button class="btn btn-primary hidden" type="button" (click)="copy(item)">Копирнуть</button>
+                </div>
+
+                <p class="text-center firm_title">ЧТУП "ЭлСиСистемс"</p>
+
+                <div class="name-title text-center">{{item.title}}</div>
+                <div class="barcode_wrapper">
+                    <img *ngIf="item.qrcode" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data={{item.qrcode}}">
+                </div>
+                <div class="options_wrapper">
+                    <div class="option text-center" *ngFor="let option of item.options">
+                        <img src="{{option.icon}}">
+                        <div class="option_info">{{option.name}}</div>
+                    </div>
+                    <div class="option present_wrapper text-center" *ngIf="item.present != ''">
+                        <img src="./assets/img/present.png">
+                        <div class="option_info present_title colorRed">{{item.present}}</div>
+                    </div>
+                </div>
+                <div class="info_block">
+                    <ul class="main-info">
+                        <li><b>Дисплей:</b> {{item.display}}</li>
+                        <li><b>Чипсет:</b> {{item.chipset}}</li>
+                        <li><b>Память:</b> {{item.ram}}</li>
+                        <li><b>Батарея:</b> {{item.battery}}</li>
+                        <li><b>OC:</b> {{item.os}}</li>
+                        <li *ngIf="item.other"><b>Другое:</b> {{item.other}}</li>
+                    </ul>
+                    <div class="price_block text-center">
+
+                        <div class="price_wrapper colorRed" *ngIf="item.byCash > 0">
+                            <div class="bycash_price"><span>{{item.byCash}}</span> руб* </div>
+                            <p><b>*одним платежом</b></p>
+                        </div>
+
+                        <div class="price_wrapper" *ngIf="item.oldprice > 0">
+                            <div class="old_price"><span>{{item.oldprice}}</span> руб</div>
+                        </div>
+
+                        <div class="current_price" [ngClass]="setClass(item.byCash, item.oldprice)"><span>{{item.price}}</span> руб</div>
+                        <p><b>кредит/рассрочка*</b></p>
+                        <div class="details">подробности уточняйте у консультанта</div>
+                    </div>
+                </div>
+
+                <div class="footer_info">
+                    <span>Страна происхождения: Китай</span>
+                    <span class="day">{{today | date: 'dd.MM.yyyy'}}</span>
+                </div>
+            </div>
+    </ng-container>
+</div>
+<div class="selector_products">
+    <button class="btn btn-primary imagelist" type="button" (click)="create()">Добавить</button>
+    <ng-container *ngFor="let item of filtered; let i = index">
+       <div class="col-md-12">
+           <label for="item-{{i}}">
+               <input type="checkbox" [(ngModel)]="item.active" id="item-{{i}}"> {{item.title}}
+           </label>
+
+       </div>
+    </ng-container>
+</div>
+
+<div class="modlal" [ngClass]="modalOpen ? 'open': ''">
+    <create-tsennik-app [editProduct]="productOnEdit" [productType]="prodType"  (productFormChange)="addProduct($event)"></create-tsennik-app>
+    <div class="dark-bg" (click)="openModal()"></div>
+</div>

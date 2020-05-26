@@ -1,0 +1,120 @@
+<div class="create">
+
+
+<form class="row" #productForm="ngForm">
+
+    <div class="options_wrapper">
+        <input type="text" value="" [(ngModel)] = "product.title" id="title" name="title" placeholder="название товара">
+        <input type="text" value="" [(ngModel)] = "product.qrcode" id="qrcode" name="qrcode" placeholder="URL">
+    </div>
+    <div class="col-md-12">
+    <button class="btn btn-primary" (click)="openImages()">добавить опцию</button>
+        <div class="list" ngClass = "{{listIsHidden == false ? 'open' : '' }}">
+
+            <div class="options-image" *ngFor="let image of imagesArray" (click) = "addOptionImage(image)">
+                <img src="{{image}}">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="options_wrapper">
+        <div class="option text-center" *ngFor="let option of product.options; let i = index" >
+            <button type="button" class="btn btn-primary" (click)="removeOption(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+            <img src="{{option.icon}}">
+            <textarea type="text" value="{{option.name}}" name="name-{{i}}" [(ngModel)] = "option.name"></textarea>
+        </div>
+        <div class="option present_wrapper text-center">
+            <img src="./assets/img/present.png">
+            <textarea type="text" value="{{product.present}}" name="present" [(ngModel)] = "product.present"></textarea>
+        </div>
+    </div>
+
+    <div class="info_block">
+        <ul class="main-info">
+            <li><b>Дисплей:</b><input type="text" value="" [(ngModel)] = "product.display" id="display" name="display"></li>
+            <li><b>Чипсет:</b><input type="text" value="" [(ngModel)] = "product.chipset" id="chipset" name="chipset"></li>
+            <li><b>Память:</b><input type="text" value="" [(ngModel)] = "product.ram" id="ram" name="ram"></li>
+            <li *ngIf="productType == 'notebook'"><b>Видеокарта:</b><input type="text" value="" [(ngModel)] = "product.video" id="video" name="video"></li>
+            <li><b>Батарея:</b><input type="text" value="" [(ngModel)] = "product.battery" id="battery" name="battery"></li>
+            <li><b>OC:</b><input type="text" value="" [(ngModel)] = "product.os" id="os" name="os"></li>
+            <li><b>Другое:</b><input type="text" value="" [(ngModel)] = "product.other" id="other" name="other"></li>
+            <input type="hidden" value="" [(ngModel)] = "product.type" id="type" name="type">
+        </ul>
+        <div class="price_block_inputs text-center">
+
+            <div class="price_wrapper colorRed">
+                <div class="bycash_pric"><input class="text-center" type="number" value="" [(ngModel)] = "product.byCash" id="byCash" name="byCash"></div>
+                <p><b>*одним платежом</b></p>
+            </div>
+
+            <div class="price_wrapper">
+                <div class="old_price"><span><input class="text-center" type="number" value="" [(ngModel)] = "product.oldprice" id="oldprice" name="oldprice"></span></div>
+            </div>
+
+            <div class="current_price"><input class="text-center" type="number" value="" [(ngModel)] = "product.price" id="price" name="price"></div>
+            <p><b>кредит/рассрочка*</b></p>
+            <div class="form-group-save">
+                <button class="btn btn-primary save" (click)="save()" type="submit" name="list"> <i class="fa fa-floppy-o" aria-hidden="true"></i> сохранить </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+</div>
+<div class="example">
+    <div class="paper_container">
+        <div class="list_wrapper">
+            <p class="text-center firm_title">ЧТУП "ЭлСиСистемс"</p>
+            <div class="name-title text-center">{{product.title}}</div>
+            <div class="barcode_wrapper">
+                <img *ngIf="product.qrcode" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data={{product.qrcode}}">
+            </div>
+
+            <div class="options_wrapper">
+                <div class="option text-center" *ngFor="let option of product.options">
+                    <img src="{{option.icon}}">
+                    <div class="option_info">{{option.name}}</div>
+                </div>
+                <div class="option present_wrapper" *ngIf="product.present != ''">
+                    <img src="./assets/img/present.png">
+                    <div class="option_info present_title colorRed">{{product.present}}</div>
+                </div>
+            </div>
+            <div class="info_block">
+                <ul class="main-info">
+                    <li><b>Дисплей:</b>{{product.display}}</li>
+                    <li><b>Чипсет:</b>{{product.chipset}}</li>
+                    <li><b>Память:</b>{{product.ram}}</li>
+                    <li *ngIf="product.video"><b>Видеокарта:</b>{{product.video}}</li>
+                    <li><b>Батарея:</b>{{product.battery}}</li>
+                    <li><b>OC:</b>{{product.os}}</li>
+                    <li><b>Другое:</b>{{product.other}}</li>
+                </ul>
+                <div class="price_block text-center">
+                    <div class="price_wrapper colorRed" *ngIf="product.byCash > 0">
+                        <div class="bycash_price"><span>{{product.byCash}}</span> руб* </div>
+                        <p><b>*одним платежом</b></p>
+                    </div>
+
+                    <div class="price_wrapper" *ngIf="product.oldprice > 0">
+                        <div class="old_price"><span>{{product.oldprice}}</span> руб</div>
+                    </div>
+
+                    <div class="current_price" [ngClass]="setClass(product.byCash, product.oldprice)"><span>{{product.price}}</span> руб</div>
+                    <p><b>кредит/рассрочка*</b></p>
+                    <div class="details">подробности уточняйте у консультанта</div>
+                </div>
+            </div>
+
+            <div class="footer_info">
+                <span>Страна происхождения: Китай</span>
+                <span class="day">{{today | date: 'dd.MM.yyyy'}}</span>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
