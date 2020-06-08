@@ -21,8 +21,7 @@ export class AppComponent implements OnInit, OnChanges  {
                 private filterService : FilterService){}
 
     ngOnChanges(changes){
-        console.log(changes)
-        console.log('change')
+
     }
 
     ngOnInit(){

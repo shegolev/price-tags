@@ -41,12 +41,15 @@
                         <li><b>Дисплей:</b> {{item.display}}</li>
                         <li><b>Чипсет:</b> {{item.chipset}}</li>
                         <li><b>Память:</b> {{item.ram}}</li>
-                        <li><b>Батарея:</b> {{item.battery}}</li>
+                        <li *ngIf="item.battery"><b>Батарея:</b> {{item.battery}}</li>
+                        <li *ngIf="item.functions"><b>Функции:</b>{{item.functions}}</li>
                         <li><b>OC:</b> {{item.os}}</li>
                         <li *ngIf="item.other"><b>Другое:</b> {{item.other}}</li>
                     </ul>
                     <div class="price_block text-center">
-
+                        <div class="price_wrapper" *ngIf="item.preorder">
+                            <div class="preorder">ПРЕДЗАКАЗ</div>
+                        </div>
                         <div class="price_wrapper colorRed" *ngIf="item.byCash > 0">
                             <div class="bycash_price"><span>{{item.byCash}}</span> руб* </div>
                             <p><b>*одним платежом</b></p>

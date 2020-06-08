@@ -8,7 +8,7 @@ var core_1 = require('@angular/core');
 var http_service_1 = require('./service/http.service');
 var filter_sevice_1 = require('./service/filter.sevice');
 var Product = (function () {
-    function Product(title, qrcode, options, display, chipset, ram, video, battery, os, present, other, byCash, oldprice, price, active, type) {
+    function Product(title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type) {
         if (title === void 0) { title = ''; }
         if (qrcode === void 0) { qrcode = ''; }
         if (options === void 0) { options = []; }
@@ -17,9 +17,11 @@ var Product = (function () {
         if (ram === void 0) { ram = ''; }
         if (video === void 0) { video = ''; }
         if (battery === void 0) { battery = ''; }
+        if (functions === void 0) { functions = ''; }
         if (os === void 0) { os = ''; }
         if (present === void 0) { present = ''; }
         if (other === void 0) { other = ''; }
+        if (preorder === void 0) { preorder = false; }
         if (byCash === void 0) { byCash = 0; }
         if (oldprice === void 0) { oldprice = 0; }
         if (price === void 0) { price = 0; }
@@ -33,9 +35,11 @@ var Product = (function () {
         this.ram = ram;
         this.video = video;
         this.battery = battery;
+        this.functions = functions;
         this.os = os;
         this.present = present;
         this.other = other;
+        this.preorder = preorder;
         this.byCash = byCash;
         this.oldprice = oldprice;
         this.price = price;

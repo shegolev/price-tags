@@ -86,6 +86,7 @@ img {
     position: relative;
     height: 400px;
     width: 100%;
+    padding: 0 20px;
 }
 
 .present_wrapper img {
@@ -95,9 +96,9 @@ img {
     padding: 10px 4px 0 0;
 }
 .present_title {
-    font-size:12px;
     font-weight: bold;
     text-align: center;
+    color:#ec1c24;
 }
 .firm_title {
     font-size: 11px;
@@ -121,14 +122,15 @@ img {
     justify-content: space-around;
     align-items: center;
     font-size: 10px;
-    padding: 15px 28px;
+    padding: 15px 0;
 }
 .option {
-    padding:0 17px;
+
 }
 .option_info {
     height: 40px;
     max-width: 109px;
+    margin-top: 10px;
 }
 .option img {
     width: 80px;
@@ -141,7 +143,7 @@ img {
     width: 100%;
 }
 .main-info {
-    padding-left: 44px;
+    padding-left: 19px;
     font-size: 10px;
     list-style-type: none;
     width: 100%;
@@ -152,7 +154,7 @@ img {
     font-weight: bold;
     height: 140px;
     display: flex;
-    padding: 0 20px;
+    padding-left:20px;
     flex-direction: column;
     justify-content: flex-end;
 }
@@ -162,11 +164,17 @@ img {
 
 }
 .old_price,
-.bycash_price {
+.bycash_price,
+.preorder{
     position: relative;
 }
-.bycash_price {
+.bycash_price, .preorder {
     color: #ec1c24;
+}
+.preorder {
+    padding-right: 6px;
+    font-size: 18px;
+    padding-bottom: 5px;
 }
 .old_price:before {
     content: ' ';
@@ -219,12 +227,16 @@ img {
 .footer_info {
     display: flex;
     position: absolute;
-    bottom:3px;
+    bottom: 3px;
     width: 100%;
-    padding-left: 44px;
     justify-content: space-between;
     align-items: center;
     font-size: 9px;
+    max-width: 569px;
+    padding-left: 19px;
+ }
+ .day{
+     margin-right: 38px;
  }
  .day, .details{
      font-size: 6px;
@@ -253,9 +265,9 @@ img {
  /**EDIT TEMPLATE**/
 .create {
     background: #ffffff;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+    max-width: 1000px;
+    margin: 5px auto;
+    padding: 10px 20px;
     position: relative;
     z-index: 2;
 }
@@ -278,11 +290,15 @@ img {
 .create input {
     padding: 3px 15px;
     width: 100%;
+    font-size: 14px;
 }
 .create .option {
     position: relative;
     padding: 1px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .create .option input {
     position: absolute;
@@ -290,13 +306,25 @@ img {
     left: 0;
     font-size: 16px;
 }
+.create .option textarea {
+    font-size: 12px;
+    width: 100%;
+    min-height: 52px;
+}
 .create .option .btn {
-    position: absolute;
-    top:0;
-    z-index: 3;
+
+}
+.create .option img {
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
 }
 .create .options_wrapper {
-    padding: 9px 15px;
+    padding: 9px 0;
+    flex-direction: column;
+}
+.create .options_wrapper .add-option-btn {
+    width: 100%;
 }
 .create .info_block {
     padding: 0 15px;
@@ -311,11 +339,13 @@ img {
     overflow-y: auto;
     overflow-x: hidden;
     display: none;
+    width: 130px;
     z-index: 99;
     background: #ffffff;
 }
 .list.open {
     display: block;
+    top:41px;
 }
 .list img {
     max-width: 80px;
@@ -324,13 +354,7 @@ img {
 .btn-primary {
     position: relative;
 }
-.btn-primary .list {
-    top:33px;
-    left:0;
-}
-.btn-primary.imagelist {
-    width: 97px;
-}
+
 .edit .btn {
     margin-top: 1px;
     height: auto;
@@ -375,5 +399,10 @@ img {
 @media print {
     .selector_products, .btn, .header {
         display: none;
+    }
+    .paper_container {
+        padding-top: 55px;
+        max-width: 610px;
+        margin: 20px auto;
     }
 }

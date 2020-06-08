@@ -17,8 +17,6 @@ var AppComponent = (function () {
         this.prodType = 'smartphone';
     }
     AppComponent.prototype.ngOnChanges = function (changes) {
-        console.log(changes);
-        console.log('change');
     };
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
