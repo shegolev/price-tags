@@ -12,12 +12,13 @@
 </div>
 
 <div class="paper_container">
-    <ng-container *ngFor="let item of filtered">
+    <ng-container *ngFor="let item of filtered; let i = index">
         <div class="list_wrapper" *ngIf="item.active">
 
                 <div class="edit">
                     <button class="btn btn-primary" type="button" (click)="edit(item)">Редачить</button>
-                    <button class="btn btn-primary hidden" type="button" (click)="copy(item)">Копирнуть</button>
+                    <button class="btn btn-primary" type="button" (click)="copy(item)">Копирнуть</button>
+                    <button class="btn btn-primary" type="button" (click)="delete(item)">Удалить</button>
                 </div>
 
                 <p class="text-center firm_title">ЧТУП "ЭлСиСистемс"</p>

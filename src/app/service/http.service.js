@@ -19,16 +19,8 @@ var HttpService = (function () {
     HttpService.prototype.getData = function () {
         return this.http.get('data/list.json');
     };
-    HttpService.prototype.updateList = function (item, arr) {
-        var isTitleInArray = this.allData.some(function (value) {
-            return item.title === value.title;
-        });
-        if (!isTitleInArray) {
-            this.allData.push(item);
-        }
-        else {
-            this.allData = arr;
-        }
+    HttpService.prototype.updateList = function (arr) {
+        this.allData = arr;
         return this.allData;
     };
     HttpService.prototype.getQR = function (url) {

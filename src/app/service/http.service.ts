@@ -17,15 +17,9 @@ export class HttpService{
     getData(){
         return this.http.get('data/list.json');
     }
-    updateList(item, arr){
-        let isTitleInArray = this.allData.some((value:any) => {
-            return item.title === value.title
-        });
-        if(!isTitleInArray) {
-            this.allData.push(item);
-        } else {
-            this.allData = arr;
-        }
+    updateList(arr){
+
+        this.allData = arr;
         return this.allData;
 
     }
