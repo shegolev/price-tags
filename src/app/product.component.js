@@ -65,7 +65,12 @@ var ProductComponent = (function () {
             "assets/img/face.png",
             "assets/img/scaner.png",
             "assets/img/premium.png",
-            "assets/img/processor_kirin.png"
+            "assets/img/processor_kirin.png",
+            "assets/img/emui.png",
+            "assets/img/fire.png",
+            "assets/img/processor.png",
+            "assets/img/sound.png",
+            "assets/img/percent.png",
         ];
         this.listIsHidden = true;
         this.productFormChange = new core_1.EventEmitter();

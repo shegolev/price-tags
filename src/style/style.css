@@ -405,4 +405,10 @@ img {
         max-width: 610px;
         margin: 20px auto;
     }
+    .current_price span {
+        color: #ec1c24 !important;
+    }
+    .current_price.colorBlack span {
+        color: #000000 !important;
+    }
 }
