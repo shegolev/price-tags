@@ -24,7 +24,9 @@ export class Product{
         public oldprice: number = 0,
         public price: number = 0,
         public active: boolean = true,
-        public type: string = ''
+        public type: string = '',
+        public qntPrice: number = 1,
+        public multiprice : any[] = []
     ){}
 
 }
@@ -98,7 +100,16 @@ export class ProductComponent {
         this.product.options.push(option);
         this.listIsHidden = !this.listIsHidden;
     }
-
+    removeMultiPrice(index){
+        this.product.multiprice.splice(index, 1);
+    }
+    addMultiPrice() {
+        let priseItem = {
+            title: '',
+            price:0
+        }
+        this.product.multiprice.push(priseItem);
+    }
     setClass(byCash, oldprice) {
         if(byCash > 0 || byCash == 0 && oldprice == 0) {
             return 'colorBlack'

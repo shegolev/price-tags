@@ -105,5 +105,7 @@ function CopiedProduct(data) {
     this.price = data.price ? data.price : '';
     this.active = data.active ? data.active : '';
     this.type = data.type ? data.type : '';
+    this.qntPrice = data.qntPrice ? data.qntPrice : '';
+    this.multiprice = data.multiprice ? data.multiprice : '';
 }
 //# sourceMappingURL=app.component.js.map

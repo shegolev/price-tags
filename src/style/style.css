@@ -396,6 +396,26 @@ img {
 .create .example {
     height: 400px;
 }
+.create .nav-tab {
+    display: inline-flex;
+
+}
+.create .current_multiple_price {
+    display: flex;
+    width: 100%;
+
+}
+.multi_title {
+font-size: 16px;
+}
+.multi_price {
+    font-size: 33px;
+    line-height: normal;
+}
+.multiprice_block {
+    width: 100%;
+    font-weight: bold;
+}
 @media print {
     .selector_products, .btn, .header {
         display: none;

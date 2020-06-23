@@ -8,7 +8,7 @@ var core_1 = require('@angular/core');
 var http_service_1 = require('./service/http.service');
 var filter_sevice_1 = require('./service/filter.sevice');
 var Product = (function () {
-    function Product(title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type) {
+    function Product(title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type, qntPrice, multiprice) {
         if (title === void 0) { title = ''; }
         if (qrcode === void 0) { qrcode = ''; }
         if (options === void 0) { options = []; }
@@ -27,6 +27,8 @@ var Product = (function () {
         if (price === void 0) { price = 0; }
         if (active === void 0) { active = true; }
         if (type === void 0) { type = ''; }
+        if (qntPrice === void 0) { qntPrice = 1; }
+        if (multiprice === void 0) { multiprice = []; }
         this.title = title;
         this.qrcode = qrcode;
         this.options = options;
@@ -45,6 +47,8 @@ var Product = (function () {
         this.price = price;
         this.active = active;
         this.type = type;
+        this.qntPrice = qntPrice;
+        this.multiprice = multiprice;
     }
     return Product;
 })();
@@ -106,6 +110,16 @@ var ProductComponent = (function () {
         };
         this.product.options.push(option);
         this.listIsHidden = !this.listIsHidden;
+    };
+    ProductComponent.prototype.removeMultiPrice = function (index) {
+        this.product.multiprice.splice(index, 1);
+    };
+    ProductComponent.prototype.addMultiPrice = function () {
+        var priseItem = {
+            title: '',
+            price: 0
+        };
+        this.product.multiprice.push(priseItem);
     };
     ProductComponent.prototype.setClass = function (byCash, oldprice) {
         if (byCash > 0 || byCash == 0 && oldprice == 0) {

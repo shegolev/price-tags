@@ -22,7 +22,7 @@
             </div>
             <div class="option text-center" *ngFor="let option of product.options; let i = index" >
                 <img src="{{option.icon}}">
-                <textarea type="text" value="{{option.name}}" name="name-{{i}}" [(ngModel)] = "option.name"></textarea>
+                <textarea type="text"  name="name-{{i}}" [(ngModel)] = "option.name"></textarea>
                 <button type="button" class="btn btn-primary" (click)="removeOption(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
             </div>
             <div class="option present_wrapper text-center">
@@ -44,22 +44,38 @@
             <li><b>Другое:</b><input type="text" value="" [(ngModel)] = "product.other" id="other" name="other"></li>
             <input type="hidden" value="" [(ngModel)] = "product.type" id="type" name="type">
         </ul>
-        <div class="price_block_inputs text-center">
-            <label>
-                <input type="checkbox" [(ngModel)]="product.preorder" name="preorder"> Предзаказ
-            </label>
 
-            <div class="price_wrapper colorRed">
-                <div class="bycash_pric"><input class="text-center" type="number" value="" [(ngModel)] = "product.byCash" id="byCash" name="byCash"></div>
-                <p><b>*одним платежом</b></p>
+        <div class="price_block_inputs">
+            <div class="nav-tab">
+                <input type="radio" name="qntPrice" [(ngModel)] = 'product.qntPrice' checked value="1"> одна цена
+                <input type="radio" name="qntPrice" [(ngModel)] = 'product.qntPrice' value="2"> несколько цен
             </div>
+            <div class="text-center" *ngIf="product.qntPrice == 1">
+                <label>
+                    <input type="checkbox" [(ngModel)]="product.preorder" name="preorder"> Предзаказ
+                </label>
 
-            <div class="price_wrapper">
-                <div class="old_price"><span><input class="text-center" type="number" value="" [(ngModel)] = "product.oldprice" id="oldprice" name="oldprice"></span></div>
+                <div class="price_wrapper colorRed">
+                    <div class="bycash_pric"><input class="text-center" type="number" value="" [(ngModel)] = "product.byCash" id="byCash" name="byCash"></div>
+                    <p><b>*одним платежом</b></p>
+                </div>
+
+                <div class="price_wrapper">
+                    <div class="old_price"><span><input class="text-center" type="number" value="" [(ngModel)] = "product.oldprice" id="oldprice" name="oldprice"></span></div>
+                </div>
+
+                <div class="current_price"><input class="text-center" type="number" value="" [(ngModel)] = "product.price" id="price" name="price"></div>
+                <p><b>кредит/рассрочка*</b></p>
             </div>
+            <div class="text-center" *ngIf="product.qntPrice == 2">
 
-            <div class="current_price"><input class="text-center" type="number" value="" [(ngModel)] = "product.price" id="price" name="price"></div>
-            <p><b>кредит/рассрочка*</b></p>
+                <div class="current_multiple_price" *ngFor="let item of product.multiprice; let i = index">
+                    <input class="text-center" type="text"  [(ngModel)] = 'item.title'  name="title-{{i}}" value="" name="title">
+                    <input class="text-center" type="number" [(ngModel)] = 'item.price' name="price-{{i}}" name="price">
+                    <button type="button" class="btn btn-primary" (click)="removeMultiPrice(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                </div>
+                <button type="button" class="btn btn-primary" (click)="addMultiPrice()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>
 
         </div>
 
@@ -101,7 +117,7 @@
                     <li><b>OC:</b>{{product.os}}</li>
                     <li><b>Другое:</b>{{product.other}}</li>
                 </ul>
-                <div class="price_block text-center">
+                <div class="price_block text-center" *ngIf="product.qntPrice == 1">
 
                     <div class="price_wrapper colorRed" *ngIf="product.preorder">
                         <div class="preorder">ПРЕДЗАКАЗ</div>
@@ -118,6 +134,13 @@
                     <div class="current_price" [ngClass]="setClass(product.byCash, product.oldprice)"><span>{{product.price}}</span> руб</div>
                     <p><b>кредит/рассрочка*</b></p>
                     <div class="details">подробности уточняйте у консультанта</div>
+                </div>
+                <div class="multiprice_block text-center" *ngIf="product.qntPrice == 2">
+
+                    <div class="current_multiple_price" *ngFor="let item of product.multiprice">
+                        <span class="multi_title">{{item.title}}</span>
+                        <span class="multi_price"> {{item.price}} </span> руб
+                    </div>
                 </div>
             </div>
 

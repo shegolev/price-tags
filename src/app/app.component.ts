@@ -86,24 +86,26 @@ export class AppComponent implements OnInit, OnChanges  {
 }
 
 function CopiedProduct(data){
-      this.title = data.title ? data.title + ' copy' : '';
-      this.qrcode = data.qrcode ? data.qrcode : '';
-      this.options = data.options ? data.options : '';
-      this.display = data.display ? data.display : '';
-      this.chipset = data.chipset ? data.chipset : '';
-      this.ram = data.ram ? data.ram : '';
-      this.video = data.video ? data.video : '';
-      this.battery = data.battery ? data.battery : '';
-      this.functions = data.functions ? data.functions : '';
-      this.os = data.os ? data.os : '';
-      this.present = data.present ? data.present : '';
-      this.other = data.other ? data.other : '';
-      this.preorder = data.preorder ? data.preorder : '';
-      this.byCash = data.byCash ? data.byCash : '';
-      this.oldprice = data.oldprice ? data.oldprice : '';
-      this.price = data.price ? data.price : '';
-      this.active = data.active ? data.active : '';
-      this.type = data.type ? data.type : '';
+    this.title = data.title ? data.title + ' copy' : '';
+    this.qrcode = data.qrcode ? data.qrcode : '';
+    this.options = data.options ? data.options : '';
+    this.display = data.display ? data.display : '';
+    this.chipset = data.chipset ? data.chipset : '';
+    this.ram = data.ram ? data.ram : '';
+    this.video = data.video ? data.video : '';
+    this.battery = data.battery ? data.battery : '';
+    this.functions = data.functions ? data.functions : '';
+    this.os = data.os ? data.os : '';
+    this.present = data.present ? data.present : '';
+    this.other = data.other ? data.other : '';
+    this.preorder = data.preorder ? data.preorder : '';
+    this.byCash = data.byCash ? data.byCash : '';
+    this.oldprice = data.oldprice ? data.oldprice : '';
+    this.price = data.price ? data.price : '';
+    this.active = data.active ? data.active : '';
+    this.type = data.type ? data.type : '';
+    this.qntPrice = data.qntPrice ? data.qntPrice : '';
+    this.multiprice  = data.multiprice ? data.multiprice : '';
 
 }
 

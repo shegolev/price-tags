@@ -47,7 +47,7 @@
                         <li><b>OC:</b> {{item.os}}</li>
                         <li *ngIf="item.other"><b>Другое:</b> {{item.other}}</li>
                     </ul>
-                    <div class="price_block text-center">
+                    <div class="price_block text-center" *ngIf="item.qntPrice == 1">
                         <div class="price_wrapper" *ngIf="item.preorder">
                             <div class="preorder">ПРЕДЗАКАЗ</div>
                         </div>
@@ -63,6 +63,13 @@
                         <div class="current_price" [ngClass]="setClass(item.byCash, item.oldprice)"><span>{{item.price}}</span> руб</div>
                         <p><b>кредит/рассрочка*</b></p>
                         <div class="details">подробности уточняйте у консультанта</div>
+                    </div>
+                    <div class="multiprice_block text-center" *ngIf="item.qntPrice == 2">
+
+                        <div class="current_multiple_price" *ngFor="let multi of item.multiprice">
+                            <span class="multi_title">{{multi.title}}</span>
+                            <span class="multi_price"> {{multi.price}} </span> руб
+                        </div>
                     </div>
                 </div>
 
