@@ -112,7 +112,7 @@ img {
 .barcode_wrapper {
     height: 95px;
     width: 95px;
-    padding: 13px 15px;
+    padding: 0 3px;
     position: absolute;
     right: 0;
     top: 0;

@@ -23,9 +23,7 @@ export class HttpService{
         return this.allData;
 
     }
-    getQR(url){
 
-    }
     postData() {
         const data = this.allData;
         let headers = new HttpHeaders();

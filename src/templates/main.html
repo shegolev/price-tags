@@ -25,7 +25,7 @@
 
                 <div class="name-title text-center">{{item.title}}</div>
                 <div class="barcode_wrapper">
-                    <img *ngIf="item.qrcode" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data={{item.qrcode}}">
+                    <img *ngIf="item.qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{item.qrcode}}">
                 </div>
                 <div class="options_wrapper">
                     <div class="option text-center" *ngFor="let option of item.options">

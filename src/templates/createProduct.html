@@ -93,7 +93,7 @@
             <p class="text-center firm_title">ЧТУП "ЭлСиСистемс"</p>
             <div class="name-title text-center">{{product.title}}</div>
             <div class="barcode_wrapper">
-                <img *ngIf="product.qrcode" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data={{product.qrcode}}">
+                <img *ngIf="product.qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{product.qrcode}}">
             </div>
 
             <div class="options_wrapper">

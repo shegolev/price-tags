@@ -23,8 +23,6 @@ var HttpService = (function () {
         this.allData = arr;
         return this.allData;
     };
-    HttpService.prototype.getQR = function (url) {
-    };
     HttpService.prototype.postData = function () {
         var data = this.allData;
         var headers = new http_1.HttpHeaders();

@@ -44,7 +44,7 @@ export class ProductComponent {
 
     today = this.httpService.today;
     product: Product = new Product();
-
+    activeElement = 'price';
     imagesArray = [
         "assets/img/camera.png",
         "assets/img/camera2.png",
@@ -113,6 +113,14 @@ export class ProductComponent {
     setClass(byCash, oldprice) {
         if(byCash > 0 || byCash == 0 && oldprice == 0) {
             return 'colorBlack'
+        }
+    }
+    setActiveElement(element){
+        switch (element){
+            case 'options': return this.activeElement = 'options';
+            case 'info': return this.activeElement = 'info';
+            case 'price': return this.activeElement = 'price';
+            default : 'options'
         }
     }
     @Output() productFormChange = new EventEmitter<any>();

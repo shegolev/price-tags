@@ -59,6 +59,7 @@ var ProductComponent = (function () {
         this.filterService = filterService;
         this.today = this.httpService.today;
         this.product = new Product();
+        this.activeElement = 'price';
         this.imagesArray = [
             "assets/img/camera.png",
             "assets/img/camera2.png",
@@ -124,6 +125,14 @@ var ProductComponent = (function () {
     ProductComponent.prototype.setClass = function (byCash, oldprice) {
         if (byCash > 0 || byCash == 0 && oldprice == 0) {
             return 'colorBlack';
+        }
+    };
+    ProductComponent.prototype.setActiveElement = function (element) {
+        switch (element) {
+            case 'options': return this.activeElement = 'options';
+            case 'info': return this.activeElement = 'info';
+            case 'price': return this.activeElement = 'price';
+            default: 'options';
         }
     };
     __decorate([
