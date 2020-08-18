@@ -1,157 +1,177 @@
-<div class="create">
-
-
-<form class="row" #productForm="ngForm">
-
-    <div class="col-md-6">
-        <label>название товара</label>
-        <input type="text" value="" [(ngModel)] = "product.title" id="title" name="title">
-    </div>
-    <div class="col-md-6">
-        <label> URL для QR кода</label>
-        <input type="text" value="" [(ngModel)] = "product.qrcode" id="qrcode" name="qrcode">
-    </div>
-
-    <div class="col-md-3">
-        <div class="options_wrapper">
-            <button class="btn btn-primary add-option-btn" (click)="openImages()">добавить опцию</button>
-            <div class="list" ngClass = "{{listIsHidden == false ? 'open' : '' }}">
-                <div class="options-image" *ngFor="let image of imagesArray" (click) = "addOptionImage(image)">
-                    <img src="{{image}}">
-                </div>
-            </div>
-            <div class="option text-center" *ngFor="let option of product.options; let i = index" >
-                <img src="{{option.icon}}">
-                <textarea type="text"  name="name-{{i}}" [(ngModel)] = "option.name"></textarea>
-                <button type="button" class="btn btn-primary" (click)="removeOption(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
-            </div>
-            <div class="option present_wrapper text-center">
-                <img src="./assets/img/present.png">
-                <textarea type="text" value="{{product.present}}" name="present" [(ngModel)] = "product.present"></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
-    <div class="info_block">
-        <ul class="main-info">
-            <li><b>Дисплей:</b><input type="text" value="" [(ngModel)] = "product.display" id="display" name="display"></li>
-            <li><b>Чипсет:</b><input type="text" value="" [(ngModel)] = "product.chipset" id="chipset" name="chipset"></li>
-            <li><b>Память:</b><input type="text" value="" [(ngModel)] = "product.ram" id="ram" name="ram"></li>
-            <li *ngIf="productType == 'notebook'"><b>Видеокарта:</b><input type="text" value="" [(ngModel)] = "product.video" id="video" name="video"></li>
-            <li><b>Батарея:</b><input type="text" value="" [(ngModel)] = "product.battery" id="battery" name="battery"></li>
-            <li *ngIf="productType == 'portative'"><b>Функции:</b><input type="text" value="" [(ngModel)] = "product.functions" id="functions" name="functions"></li>
-            <li><b>OC:</b><input type="text" value="" [(ngModel)] = "product.os" id="os" name="os"></li>
-            <li><b>Другое:</b><input type="text" value="" [(ngModel)] = "product.other" id="other" name="other"></li>
-            <input type="hidden" value="" [(ngModel)] = "product.type" id="type" name="type">
-        </ul>
-
-        <div class="price_block_inputs">
-            <div class="nav-tab">
-                <input type="radio" name="qntPrice" [(ngModel)] = 'product.qntPrice' checked value="1"> одна цена
-                <input type="radio" name="qntPrice" [(ngModel)] = 'product.qntPrice' value="2"> несколько цен
-            </div>
-            <div class="text-center" *ngIf="product.qntPrice == 1">
-                <label>
-                    <input type="checkbox" [(ngModel)]="product.preorder" name="preorder"> Предзаказ
-                </label>
-
-                <div class="price_wrapper colorRed">
-                    <div class="bycash_pric"><input class="text-center" type="number" value="" [(ngModel)] = "product.byCash" id="byCash" name="byCash"></div>
-                    <p><b>*одним платежом</b></p>
-                </div>
-
-                <div class="price_wrapper">
-                    <div class="old_price"><span><input class="text-center" type="number" value="" [(ngModel)] = "product.oldprice" id="oldprice" name="oldprice"></span></div>
-                </div>
-
-                <div class="current_price"><input class="text-center" type="number" value="" [(ngModel)] = "product.price" id="price" name="price"></div>
-                <p><b>кредит/рассрочка*</b></p>
-            </div>
-            <div class="text-center" *ngIf="product.qntPrice == 2">
-
-                <div class="current_multiple_price" *ngFor="let item of product.multiprice; let i = index">
-                    <input class="text-center" type="text"  [(ngModel)] = 'item.title'  name="title-{{i}}" value="" name="title">
-                    <input class="text-center" type="number" [(ngModel)] = 'item.price' name="price-{{i}}" name="price">
-                    <button type="button" class="btn btn-primary" (click)="removeMultiPrice(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                </div>
-                <button type="button" class="btn btn-primary" (click)="addMultiPrice()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-            </div>
-
-        </div>
-
-    </div>
-        <div class="form-group-save">
-            <button class="btn btn-primary save" (click)="save()" type="submit" name="list"> <i class="fa fa-floppy-o" aria-hidden="true"></i> сохранить </button>
-        </div>
-    </div>
-
-</form>
-</div>
 <div class="example">
+    <form class="row" #productForm="ngForm">
+    <div class="edit">
+        <button class="btn btn-primary" ngClass="{{activeElement == 'title' ? 'active' : '' }}" type="button" (click)="setActiveElement('title')">Заголовок</button>
+        <button class="btn btn-primary" ngClass="{{activeElement == 'options' ? 'active' : '' }}" type="button" (click)="setActiveElement('options')">Опции</button>
+        <div class="btn-holder">
+            <button class="btn btn-primary" ngClass="{{activeElement == 'info' ? 'active' : '' }}" type="button" (click)="setActiveElement('info')">Инфо</button>
+            <label><input (click)="setOwnOptions()" value="{{product.ownOptions}}" [(ngModel)] = "product.ownOptions" name="ownOptions" type="checkbox"> хочу своё</label>
+        </div>
+        <button class="btn btn-primary" ngClass="{{activeElement == 'price' ? 'active' : '' }}"type="button" (click)="setActiveElement('price')">Цена</button>
+        <button class="btn btn-primary save" (click)="save()" type="submit" name="list"> <i class="fa fa-floppy-o" aria-hidden="true"></i> сохранить </button>
+    </div>
     <div class="paper_container">
-        <div class="list_wrapper">
-            <p class="text-center firm_title">ЧТУП "ЭлСиСистемс"</p>
-            <div class="name-title text-center">{{product.title}}</div>
-            <div class="barcode_wrapper">
-                <img *ngIf="product.qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{product.qrcode}}">
+            <div class="col-md-12" *ngIf="activeElement != 'title'">
+                <p class="text-center firm_title">ЧТУП "ЭлСиСистемс"</p>
+                <div class="name-title text-center">{{product.title}}</div>
+                <div class="barcode_wrapper">
+                    <img *ngIf="product.qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{product.qrcode}}">
+                </div>
             </div>
 
-            <div class="options_wrapper">
-                <div class="option text-center" *ngFor="let option of product.options">
+            <div class="col-md-12" *ngIf="activeElement == 'title'">
+                <div class="col-md-6">
+                    <label>название товара</label>
+                    <input type="text" value="" [(ngModel)] = "product.title" name="title">
+                </div>
+                <div class="col-md-6">
+                    <label> URL для QR кода</label>
+                    <input type="text" value="" [(ngModel)] = "product.qrcode" name="qrcode">
+                </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="activeElement != 'options'">
+                <div class="options_wrapper">
+                    <div class="option text-center" *ngFor="let option of product.options">
+                        <img src="{{option.icon}}">
+                        <div class="option_info">{{option.name}}</div>
+                    </div>
+                    <div class="option present_wrapper text-center" *ngIf="product.present != ''">
+                        <img src="./assets/img/present.png">
+                        <div class="option_info present_title colorRed">{{product.present}}</div>
+                    </div>
+                </div>
+            </div>
+        <div class="col-md-12" *ngIf="activeElement == 'options'">
+            <div class="options_wrapper editMode">
+                <button class="btn btn-primary add-option-btn" (click)="openImages()">добавить опцию</button>
+                <div class="list" ngClass = "{{listIsHidden == false ? 'open' : '' }}">
+                    <div class="options-image" *ngFor="let image of imagesArray" (click) = "addOptionImage(image)">
+                        <img src="{{image}}">
+                    </div>
+                </div>
+                <div class="option text-center" *ngFor="let option of product.options; let i = index" >
                     <img src="{{option.icon}}">
-                    <div class="option_info">{{option.name}}</div>
+                    <textarea type="text"  name="name-{{i}}" [(ngModel)] = "option.name"></textarea>
+                    <button type="button" class="btn btn-primary" (click)="remove(i, product.options)"><i class="fa fa-minus" aria-hidden="true"></i></button>
                 </div>
-                <div class="option present_wrapper text-center" *ngIf="product.present != ''">
+                <div class="option present_wrapper text-center">
                     <img src="./assets/img/present.png">
-                    <div class="option_info present_title colorRed">{{product.present}}</div>
+                    <textarea type="text" value="{{product.present}}" name="present" [(ngModel)] = "product.present"></textarea>
                 </div>
             </div>
+        </div>
             <div class="info_block">
-                <ul class="main-info">
-                    <li><b>Дисплей:</b>{{product.display}}</li>
-                    <li><b>Чипсет:</b>{{product.chipset}}</li>
-                    <li><b>Память:</b>{{product.ram}}</li>
-                    <li *ngIf="product.video"><b>Видеокарта:</b>{{product.video}}</li>
-                    <li *ngIf="product.battery"><b>Батарея:</b>{{product.battery}}</li>
-                    <li *ngIf="product.functions"><b>Функции:</b>{{product.functions}}</li>
-                    <li><b>OC:</b>{{product.os}}</li>
-                    <li><b>Другое:</b>{{product.other}}</li>
-                </ul>
-                <div class="price_block text-center" *ngIf="product.qntPrice == 1">
+                <ng-container *ngIf="ownOptions">
+                    <ul class="main-info" *ngIf="activeElement != 'info'">
+                        <li *ngFor="let own of product.portativeOptions">
+                            <b>{{own.title}}:</b>{{own.text}}
+                        </li>
+                    </ul>
+                    <ul class="main-info editMode" *ngIf="activeElement == 'info'">
+                        <li class="own_options_wrapper" *ngFor="let ownEdit of product.portativeOptions; let i = index">
+                            <div class="own_option"> <input placeholder="название" type="text" [(ngModel)] = "ownEdit.title" name="title-{{i}}" value="{{ownEdit.title}}"></div>
+                            <div class="own_option"> <textarea placeholder="текст" type="text"  name="text-{{i}}" [(ngModel)] = "ownEdit.text" value="{{ownEdit.text}}"></textarea></div>
+                            <button type="button" class="btn btn-primary" (click)="remove(i, product.portativeOptions)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </li>
+                        <button type="button" class="btn btn-primary" (click)="addNewOwnOption()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    </ul>
+                </ng-container>
+                <ng-container *ngIf="!ownOptions">
+                    <ul class="main-info" *ngIf="activeElement != 'info'">
+                        <li><b>Дисплей:</b>{{product.display}}</li>
+                        <li><b>Чипсет:</b>{{product.chipset}}</li>
+                        <li><b>Память:</b>{{product.ram}}</li>
+                        <li *ngIf="product.video"><b>Видеокарта:</b>{{product.video}}</li>
+                        <li *ngIf="product.battery"><b>Батарея:</b>{{product.battery}}</li>
+                        <li *ngIf="product.functions"><b>Функции:</b>{{product.functions}}</li>
+                        <li><b>OC:</b>{{product.os}}</li>
+                        <li><b>Другое:</b>{{product.other}}</li>
+                    </ul>
+                    <ul class="main-info editMode" *ngIf="activeElement == 'info'">
+                        <li><b>Дисплей:</b><input type="text" value="" [(ngModel)] = "product.display" id="display" name="display"></li>
+                        <li><b>Чипсет:</b><input type="text" value="" [(ngModel)] = "product.chipset" id="chipset" name="chipset"></li>
+                        <li><b>Память:</b><input type="text" value="" [(ngModel)] = "product.ram" id="ram" name="ram"></li>
+                        <li *ngIf="productType == 'notebook'"><b>Видеокарта:</b><input type="text" value="" [(ngModel)] = "product.video" id="video" name="video"></li>
+                        <li><b>Батарея:</b><input type="text" value="" [(ngModel)] = "product.battery" id="battery" name="battery"></li>
+                        <li *ngIf="productType == 'portative'"><b>Функции:</b><input type="text" value="" [(ngModel)] = "product.functions" id="functions" name="functions"></li>
+                        <li><b>OC:</b><input type="text" value="" [(ngModel)] = "product.os" id="os" name="os"></li>
+                        <li><b>Другое:</b><input type="text" value="" [(ngModel)] = "product.other" id="other" name="other"></li>
+                        <input type="hidden" value="" [(ngModel)] = "product.type" id="type" name="type">
+                    </ul>
+                </ng-container>
 
-                    <div class="price_wrapper colorRed" *ngIf="product.preorder">
-                        <div class="preorder">ПРЕДЗАКАЗ</div>
+                <ng-container  *ngIf="activeElement != 'price'">
+                    <div class="price_block text-center" *ngIf="product.qntPrice == 1">
+
+                        <div class="price_wrapper colorRed" *ngIf="product.preorder">
+                            <div class="preorder">ПРЕДЗАКАЗ</div>
+                        </div>
+                        <div class="price_wrapper colorRed" *ngIf="product.byCash > 0">
+                            <div class="bycash_price"><span>{{product.byCash}}</span> руб* </div>
+                            <p><b>*одним платежом</b></p>
+                        </div>
+
+                        <div class="price_wrapper" *ngIf="product.oldprice > 0">
+                            <div class="old_price"><span>{{product.oldprice}}</span> руб</div>
+                        </div>
+
+                        <div class="current_price" [ngClass]="setClass(product.byCash, product.oldprice)"><span>{{product.price}}</span> руб</div>
+                        <p><b>кредит/рассрочка*</b></p>
+                        <div class="details">подробности уточняйте у консультанта</div>
                     </div>
-                    <div class="price_wrapper colorRed" *ngIf="product.byCash > 0">
-                        <div class="bycash_price"><span>{{product.byCash}}</span> руб* </div>
-                        <p><b>*одним платежом</b></p>
+                    <div class="multiprice_block text-center" *ngIf="product.qntPrice == 2">
+
+                        <div class="current_multiple_price" *ngFor="let item of product.multiprice">
+                            <span class="multi_title">{{item.title}}</span>
+                            <span class="multi_price"> {{item.price}} </span> руб
+                        </div>
+                    </div>
+                </ng-container>
+
+                <div class="price_block_inputs" *ngIf="activeElement == 'price'">
+                    <div class="nav-tab">
+                        <input type="radio" name="qntPrice" [(ngModel)] = 'product.qntPrice' checked value="1"> одна цена
+                        <input type="radio" name="qntPrice" [(ngModel)] = 'product.qntPrice' value="2"> несколько цен
+                    </div>
+                    <div class="text-center" *ngIf="product.qntPrice == 1">
+                        <label>
+                            <input type="checkbox" [(ngModel)]="product.preorder" name="preorder"> Предзаказ
+                        </label>
+
+                        <div class="price_wrapper colorRed">
+                            <div class="bycash_pric"><input class="text-center" type="number" value="" [(ngModel)] = "product.byCash" id="byCash" name="byCash"></div>
+                            <p><b>*одним платежом</b></p>
+                        </div>
+
+                        <div class="price_wrapper">
+                            <div class="old_price"><span><input class="text-center" type="number" value="" [(ngModel)] = "product.oldprice" id="oldprice" name="oldprice"></span></div>
+                        </div>
+
+                        <div class="current_price"><input class="text-center" type="number" value="" [(ngModel)] = "product.price" id="price" name="price"></div>
+                        <p><b>кредит/рассрочка*</b></p>
+                    </div>
+                    <div class="text-center" *ngIf="product.qntPrice == 2">
+
+                        <div class="current_multiple_price" *ngFor="let item of product.multiprice; let i = index">
+                            <input class="text-center" type="text"  [(ngModel)] = 'item.title'  name="title-{{i}}" value="" name="title">
+                            <input class="text-center" type="number" [(ngModel)] = 'item.price' name="price-{{i}}" name="price">
+                            <button type="button" class="btn btn-primary" (click)="remove(i, product.multiprice)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addMultiPrice()"><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
 
-                    <div class="price_wrapper" *ngIf="product.oldprice > 0">
-                        <div class="old_price"><span>{{product.oldprice}}</span> руб</div>
-                    </div>
-
-                    <div class="current_price" [ngClass]="setClass(product.byCash, product.oldprice)"><span>{{product.price}}</span> руб</div>
-                    <p><b>кредит/рассрочка*</b></p>
-                    <div class="details">подробности уточняйте у консультанта</div>
-                </div>
-                <div class="multiprice_block text-center" *ngIf="product.qntPrice == 2">
-
-                    <div class="current_multiple_price" *ngFor="let item of product.multiprice">
-                        <span class="multi_title">{{item.title}}</span>
-                        <span class="multi_price"> {{item.price}} </span> руб
-                    </div>
                 </div>
             </div>
 
-            <div class="footer_info">
-                <span>Страна происхождения: Китай</span>
-                <span class="day">{{today | date: 'dd.MM.yyyy'}}</span>
-
-            </div>
+        <div class="footer_info">
+            <span>Страна происхождения: Китай</span>
+            <span class="day">{{today | date: 'dd.MM.yyyy'}}</span>
         </div>
 
 
-
     </div>
+
+    </form>
+
 </div>

@@ -8,7 +8,7 @@ var core_1 = require('@angular/core');
 var http_service_1 = require('./service/http.service');
 var filter_sevice_1 = require('./service/filter.sevice');
 var Product = (function () {
-    function Product(title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type, qntPrice, multiprice) {
+    function Product(title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type, qntPrice, multiprice, ownOptions, portativeOptions) {
         if (title === void 0) { title = ''; }
         if (qrcode === void 0) { qrcode = ''; }
         if (options === void 0) { options = []; }
@@ -29,6 +29,8 @@ var Product = (function () {
         if (type === void 0) { type = ''; }
         if (qntPrice === void 0) { qntPrice = 1; }
         if (multiprice === void 0) { multiprice = []; }
+        if (ownOptions === void 0) { ownOptions = false; }
+        if (portativeOptions === void 0) { portativeOptions = []; }
         this.title = title;
         this.qrcode = qrcode;
         this.options = options;
@@ -49,6 +51,8 @@ var Product = (function () {
         this.type = type;
         this.qntPrice = qntPrice;
         this.multiprice = multiprice;
+        this.ownOptions = ownOptions;
+        this.portativeOptions = portativeOptions;
     }
     return Product;
 })();
@@ -59,7 +63,7 @@ var ProductComponent = (function () {
         this.filterService = filterService;
         this.today = this.httpService.today;
         this.product = new Product();
-        this.activeElement = 'price';
+        this.activeElement = '';
         this.imagesArray = [
             "assets/img/camera.png",
             "assets/img/camera2.png",
@@ -78,6 +82,7 @@ var ProductComponent = (function () {
             "assets/img/percent.png",
         ];
         this.listIsHidden = true;
+        this.ownOptions = false;
         this.productFormChange = new core_1.EventEmitter();
     }
     ProductComponent.prototype.ngOnChanges = function () {
@@ -92,7 +97,28 @@ var ProductComponent = (function () {
         this.listIsHidden = !this.listIsHidden;
     };
     ProductComponent.prototype.edit = function (val) {
-        this.product = val;
+        this.product.title = val.title ? val.title : '';
+        this.product.qrcode = val.qrcode ? val.qrcode : '';
+        this.product.options = val.options ? val.options : [];
+        this.product.display = val.display ? val.display : '';
+        this.product.chipset = val.chipset ? val.chipset : '';
+        this.product.ram = val.ram ? val.ram : '';
+        this.product.video = val.video ? val.video : '';
+        this.product.battery = val.battery ? val.battery : '';
+        this.product.functions = val.functions ? val.functions : '';
+        this.product.os = val.os ? val.os : '';
+        this.product.present = val.present ? val.present : '';
+        this.product.other = val.other ? val.other : '';
+        this.product.preorder = val.preorder ? val.preorder : '';
+        this.product.byCash = val.byCash ? val.byCash : '';
+        this.product.oldprice = val.oldprice ? val.oldprice : '';
+        this.product.price = val.price ? val.price : '';
+        this.product.active = val.active ? val.active : '';
+        this.product.type = val.type ? val.type : '';
+        this.product.qntPrice = val.qntPrice ? val.qntPrice : '';
+        this.product.multiprice = val.multiprice ? val.multiprice : [];
+        this.product.ownOptions = val.ownOptions ? val.ownOptions : false;
+        this.product.portativeOptions = val.portativeOptions ? val.portativeOptions : [];
     };
     ProductComponent.prototype.create = function () {
         this.product = new Product();
@@ -101,8 +127,8 @@ var ProductComponent = (function () {
     ProductComponent.prototype.save = function () {
         this.productFormChange.emit(this.product);
     };
-    ProductComponent.prototype.removeOption = function (index) {
-        this.product.options.splice(index, 1);
+    ProductComponent.prototype.setOwnOptions = function () {
+        this.ownOptions = !this.ownOptions;
     };
     ProductComponent.prototype.addOptionImage = function (img) {
         var option = {
@@ -112,15 +138,22 @@ var ProductComponent = (function () {
         this.product.options.push(option);
         this.listIsHidden = !this.listIsHidden;
     };
-    ProductComponent.prototype.removeMultiPrice = function (index) {
-        this.product.multiprice.splice(index, 1);
-    };
     ProductComponent.prototype.addMultiPrice = function () {
         var priseItem = {
             title: '',
             price: 0
         };
         this.product.multiprice.push(priseItem);
+    };
+    ProductComponent.prototype.addNewOwnOption = function () {
+        var newoption = {
+            title: '',
+            text: ''
+        };
+        this.product.portativeOptions.push(newoption);
+    };
+    ProductComponent.prototype.remove = function (index, array) {
+        array.splice(index, 1);
     };
     ProductComponent.prototype.setClass = function (byCash, oldprice) {
         if (byCash > 0 || byCash == 0 && oldprice == 0) {
@@ -129,10 +162,11 @@ var ProductComponent = (function () {
     };
     ProductComponent.prototype.setActiveElement = function (element) {
         switch (element) {
-            case 'options': return this.activeElement = 'options';
-            case 'info': return this.activeElement = 'info';
-            case 'price': return this.activeElement = 'price';
-            default: 'options';
+            case 'title': return this.activeElement == 'title' ? this.activeElement = '' : this.activeElement = 'title';
+            case 'options': return this.activeElement == 'options' ? this.activeElement = '' : this.activeElement = 'options';
+            case 'info': return this.activeElement == 'info' ? this.activeElement = '' : this.activeElement = 'info';
+            case 'price': return this.activeElement == 'price' ? this.activeElement = '' : this.activeElement = 'price';
+            default: '';
         }
     };
     __decorate([

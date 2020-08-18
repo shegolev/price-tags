@@ -26,7 +26,9 @@ export class Product{
         public active: boolean = true,
         public type: string = '',
         public qntPrice: number = 1,
-        public multiprice : any[] = []
+        public multiprice : any[] = [],
+        public ownOptions :boolean = false,
+        public portativeOptions : any[] = []
     ){}
 
 }
@@ -44,7 +46,7 @@ export class ProductComponent {
 
     today = this.httpService.today;
     product: Product = new Product();
-    activeElement = 'price';
+    activeElement = '';
     imagesArray = [
         "assets/img/camera.png",
         "assets/img/camera2.png",
@@ -63,6 +65,8 @@ export class ProductComponent {
         "assets/img/percent.png",
     ];
     listIsHidden:boolean = true;
+    ownOptions:boolean = false;
+
     @Input() editProduct;
     @Input() productType;
 
@@ -80,7 +84,28 @@ export class ProductComponent {
         this.listIsHidden = !this.listIsHidden
     }
     edit(val){
-        this.product = val;
+        this.product.title = val.title ? val.title : '';
+        this.product.qrcode = val.qrcode ? val.qrcode : '';
+        this.product.options = val.options ? val.options : [];
+        this.product.display = val.display ? val.display : '';
+        this.product.chipset = val.chipset ? val.chipset : '';
+        this.product.ram = val.ram ? val.ram : '';
+        this.product.video = val.video ? val.video : '';
+        this.product.battery = val.battery ? val.battery : '';
+        this.product.functions = val.functions ? val.functions : '';
+        this.product.os = val.os ? val.os : '';
+        this.product.present = val.present ? val.present : '';
+        this.product.other = val.other ? val.other : '';
+        this.product.preorder = val.preorder ? val.preorder : '';
+        this.product.byCash = val.byCash ? val.byCash : '';
+        this.product.oldprice = val.oldprice ? val.oldprice : '';
+        this.product.price = val.price ? val.price : '';
+        this.product.active = val.active ? val.active : '';
+        this.product.type = val.type ? val.type : '';
+        this.product.qntPrice = val.qntPrice ? val.qntPrice : '';
+        this.product.multiprice  = val.multiprice ? val.multiprice : [];
+        this.product.ownOptions  = val.ownOptions ? val.ownOptions : false;
+        this.product.portativeOptions  = val.portativeOptions ? val.portativeOptions : [];
     }
     create(){
         this.product = new Product();
@@ -89,8 +114,9 @@ export class ProductComponent {
     save(){
         this.productFormChange.emit(this.product);
     }
-    removeOption(index){
-        this.product.options.splice(index, 1);
+
+    setOwnOptions() {
+        this.ownOptions = !this.ownOptions;
     }
     addOptionImage(img){
         let option = {
@@ -100,9 +126,7 @@ export class ProductComponent {
         this.product.options.push(option);
         this.listIsHidden = !this.listIsHidden;
     }
-    removeMultiPrice(index){
-        this.product.multiprice.splice(index, 1);
-    }
+
     addMultiPrice() {
         let priseItem = {
             title: '',
@@ -110,17 +134,32 @@ export class ProductComponent {
         }
         this.product.multiprice.push(priseItem);
     }
+    addNewOwnOption() {
+
+        const newoption = {
+                title:'',
+                text:''
+        };
+        this.product.portativeOptions.push(newoption)
+    }
+
+    remove(index, array){
+        array.splice(index, 1)
+    }
+
     setClass(byCash, oldprice) {
         if(byCash > 0 || byCash == 0 && oldprice == 0) {
             return 'colorBlack'
         }
     }
+
     setActiveElement(element){
         switch (element){
-            case 'options': return this.activeElement = 'options';
-            case 'info': return this.activeElement = 'info';
-            case 'price': return this.activeElement = 'price';
-            default : 'options'
+            case 'title': return this.activeElement == 'title' ? this.activeElement = '' : this.activeElement = 'title';
+            case 'options': return this.activeElement == 'options' ? this.activeElement = '' : this.activeElement = 'options';
+            case 'info': return this.activeElement == 'info' ? this.activeElement = '' : this.activeElement = 'info';
+            case 'price': return this.activeElement == 'price' ? this.activeElement = '' : this.activeElement = 'price';
+            default : ''
         }
     }
     @Output() productFormChange = new EventEmitter<any>();
