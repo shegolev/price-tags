@@ -103,6 +103,6 @@
 </div>
 
 <div class="modlal" [ngClass]="modalOpen ? 'open': ''">
-    <create-tsennik-app [editProduct]="productOnEdit" [productType]="prodType"  (productFormChange)="addProduct($event)"></create-tsennik-app>
+    <create-tsennik-app [editProduct]="productOnEdit" [productType]="prodType" [createProduct]="addIndex" (productFormChange)="addProduct($event)"></create-tsennik-app>
     <div class="dark-bg" (click)="openModal()"></div>
 </div>

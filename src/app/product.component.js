@@ -8,7 +8,8 @@ var core_1 = require('@angular/core');
 var http_service_1 = require('./service/http.service');
 var filter_sevice_1 = require('./service/filter.sevice');
 var Product = (function () {
-    function Product(title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type, qntPrice, multiprice, ownOptions, portativeOptions) {
+    function Product(id, title, qrcode, options, display, chipset, ram, video, battery, functions, os, present, other, preorder, byCash, oldprice, price, active, type, qntPrice, multiprice, ownOptions, portativeOptions) {
+        if (id === void 0) { id = null; }
         if (title === void 0) { title = ''; }
         if (qrcode === void 0) { qrcode = ''; }
         if (options === void 0) { options = []; }
@@ -31,6 +32,7 @@ var Product = (function () {
         if (multiprice === void 0) { multiprice = []; }
         if (ownOptions === void 0) { ownOptions = false; }
         if (portativeOptions === void 0) { portativeOptions = []; }
+        this.id = id;
         this.title = title;
         this.qrcode = qrcode;
         this.options = options;
@@ -90,41 +92,22 @@ var ProductComponent = (function () {
             this.edit(this.editProduct);
         }
         else {
-            this.create();
+            this.create(this.createProduct);
         }
     };
     ProductComponent.prototype.openImages = function () {
         this.listIsHidden = !this.listIsHidden;
     };
     ProductComponent.prototype.edit = function (val) {
-        this.product.title = val.title ? val.title : '';
-        this.product.qrcode = val.qrcode ? val.qrcode : '';
-        this.product.options = val.options ? val.options : [];
-        this.product.display = val.display ? val.display : '';
-        this.product.chipset = val.chipset ? val.chipset : '';
-        this.product.ram = val.ram ? val.ram : '';
-        this.product.video = val.video ? val.video : '';
-        this.product.battery = val.battery ? val.battery : '';
-        this.product.functions = val.functions ? val.functions : '';
-        this.product.os = val.os ? val.os : '';
-        this.product.present = val.present ? val.present : '';
-        this.product.other = val.other ? val.other : '';
-        this.product.preorder = val.preorder ? val.preorder : '';
-        this.product.byCash = val.byCash ? val.byCash : '';
-        this.product.oldprice = val.oldprice ? val.oldprice : '';
-        this.product.price = val.price ? val.price : '';
-        this.product.active = val.active ? val.active : '';
-        this.product.type = val.type ? val.type : '';
-        this.product.qntPrice = val.qntPrice ? val.qntPrice : '';
-        this.product.multiprice = val.multiprice ? val.multiprice : [];
-        this.product.ownOptions = val.ownOptions ? val.ownOptions : false;
-        this.product.portativeOptions = val.portativeOptions ? val.portativeOptions : [];
+        this.product = val;
     };
-    ProductComponent.prototype.create = function () {
+    ProductComponent.prototype.create = function (newIndex) {
         this.product = new Product();
+        this.product.id = newIndex + 1;
         this.product.type = this.productType;
     };
     ProductComponent.prototype.save = function () {
+        console.log(this.product);
         this.productFormChange.emit(this.product);
     };
     ProductComponent.prototype.setOwnOptions = function () {
@@ -175,6 +158,9 @@ var ProductComponent = (function () {
     __decorate([
         core_1.Input()
     ], ProductComponent.prototype, "productType");
+    __decorate([
+        core_1.Input()
+    ], ProductComponent.prototype, "createProduct");
     __decorate([
         core_1.Output()
     ], ProductComponent.prototype, "productFormChange");

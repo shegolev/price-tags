@@ -7,6 +7,7 @@ import { FilterService} from './service/filter.sevice';
 export class Product{
 
     constructor(
+        public id: number = null,
         public title: string = '',
         public qrcode: string = '',
         public options: any[] = [],
@@ -69,6 +70,7 @@ export class ProductComponent {
 
     @Input() editProduct;
     @Input() productType;
+    @Input() createProduct;
 
 
     ngOnChanges(){
@@ -76,7 +78,7 @@ export class ProductComponent {
         if(this.editProduct.title){
             this.edit(this.editProduct)
         } else {
-            this.create();
+            this.create(this.createProduct);
         }
     }
 
@@ -84,34 +86,15 @@ export class ProductComponent {
         this.listIsHidden = !this.listIsHidden
     }
     edit(val){
-        this.product.title = val.title ? val.title : '';
-        this.product.qrcode = val.qrcode ? val.qrcode : '';
-        this.product.options = val.options ? val.options : [];
-        this.product.display = val.display ? val.display : '';
-        this.product.chipset = val.chipset ? val.chipset : '';
-        this.product.ram = val.ram ? val.ram : '';
-        this.product.video = val.video ? val.video : '';
-        this.product.battery = val.battery ? val.battery : '';
-        this.product.functions = val.functions ? val.functions : '';
-        this.product.os = val.os ? val.os : '';
-        this.product.present = val.present ? val.present : '';
-        this.product.other = val.other ? val.other : '';
-        this.product.preorder = val.preorder ? val.preorder : '';
-        this.product.byCash = val.byCash ? val.byCash : '';
-        this.product.oldprice = val.oldprice ? val.oldprice : '';
-        this.product.price = val.price ? val.price : '';
-        this.product.active = val.active ? val.active : '';
-        this.product.type = val.type ? val.type : '';
-        this.product.qntPrice = val.qntPrice ? val.qntPrice : '';
-        this.product.multiprice  = val.multiprice ? val.multiprice : [];
-        this.product.ownOptions  = val.ownOptions ? val.ownOptions : false;
-        this.product.portativeOptions  = val.portativeOptions ? val.portativeOptions : [];
+        this.product = val
     }
-    create(){
+    create(newIndex){
         this.product = new Product();
+        this.product.id = newIndex + 1
         this.product.type = this.productType;
     }
     save(){
+        console.log(this.product)
         this.productFormChange.emit(this.product);
     }
 

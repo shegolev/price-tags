@@ -14,6 +14,7 @@ export class AppComponent implements OnInit, OnChanges  {
     today = this.httpService.today;
     modalOpen = false;
     productOnEdit = {};
+    addIndex = null;
     prodType = 'smartphone';
     filtered: any[];
 
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit, OnChanges  {
     }
     create(){
         this.productOnEdit = {};
+        this.addIndex = this.items.length;
         this.openModal();
     }
     edit(product){
@@ -68,24 +70,27 @@ export class AppComponent implements OnInit, OnChanges  {
     }
 
     copy(product){
-        let copied = new CopiedProduct(product);
+
+        const copied = new CopiedProduct(product, this.items.length);
         this.items.push(copied)
         this.filteredBy();
     }
     delete(product){
 
-        let prodIndex = this.items.map(item => item.title).indexOf(product.title);
+        let prodIndex = this.items.map(item => item.id).indexOf(product.id);
         this.items.splice(prodIndex, 1);
         this.httpService.updateList(this.items);
         this.filteredBy();
         this.httpService.postData();
+
     }
     filteredBy(){
         this.filtered = this.filterService.getFilter(this.prodType, this.items);
     }
 }
 
-function CopiedProduct(data){
+function CopiedProduct(data, arrLength){
+    this.id = arrLength +1 ;
     this.title = data.title ? data.title + ' copy' : '';
     this.qrcode = data.qrcode ? data.qrcode : '';
     this.options = data.options ? data.options : '';

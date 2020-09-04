@@ -14,6 +14,7 @@ var AppComponent = (function () {
         this.today = this.httpService.today;
         this.modalOpen = false;
         this.productOnEdit = {};
+        this.addIndex = null;
         this.prodType = 'smartphone';
     }
     AppComponent.prototype.ngOnChanges = function (changes) {
@@ -53,6 +54,7 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.create = function () {
         this.productOnEdit = {};
+        this.addIndex = this.items.length;
         this.openModal();
     };
     AppComponent.prototype.edit = function (product) {
@@ -61,12 +63,12 @@ var AppComponent = (function () {
         this.openModal();
     };
     AppComponent.prototype.copy = function (product) {
-        var copied = new CopiedProduct(product);
+        var copied = new CopiedProduct(product, this.items.length);
         this.items.push(copied);
         this.filteredBy();
     };
     AppComponent.prototype.delete = function (product) {
-        var prodIndex = this.items.map(function (item) { return item.title; }).indexOf(product.title);
+        var prodIndex = this.items.map(function (item) { return item.id; }).indexOf(product.id);
         this.items.splice(prodIndex, 1);
         this.httpService.updateList(this.items);
         this.filteredBy();
@@ -86,7 +88,8 @@ var AppComponent = (function () {
     return AppComponent;
 })();
 exports.AppComponent = AppComponent;
-function CopiedProduct(data) {
+function CopiedProduct(data, arrLength) {
+    this.id = arrLength + 1;
     this.title = data.title ? data.title + ' copy' : '';
     this.qrcode = data.qrcode ? data.qrcode : '';
     this.options = data.options ? data.options : '';

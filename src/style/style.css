@@ -469,4 +469,13 @@ img {
     .current_price.colorBlack span {
         color: #000000 !important;
     }
+    .colorRed,
+    .colorRed .bycash_price,
+    .price_wrapper.colorRed,
+    .colorRed div,
+    .colorRed p,
+    .colorRed b,
+    .colorRed span {
+        color: #ec1c24 !important;
+    }
 }
